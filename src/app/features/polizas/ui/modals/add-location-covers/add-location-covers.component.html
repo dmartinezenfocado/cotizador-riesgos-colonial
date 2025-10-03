@@ -1,0 +1,169 @@
+@if (open) {
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="coversTitle">
+    <div class="modal__overlay" (click)="cancel.emit()" aria-hidden="true"></div>
+
+    <div class="modal__panel">
+      <header class="modal__header">
+        <h3 id="coversTitle" class="modal__title">
+          <strong>{{ actividad }}</strong>
+          <span class="muted">en</span>
+          {{ ciudad }}
+        </h3>
+        <button class="modal__close" type="button" (click)="cancel.emit()" aria-label="Cerrar">✕</button>
+      </header>
+
+      <div class="list">
+        <!-- Edificación -->
+        <div class="list__row" [class.is-enabled]="state.edificacion.enabled">
+          <label class="chk">
+            <input type="checkbox" [(ngModel)]="state.edificacion.enabled" />
+            <span>Edificación</span>
+          </label>
+
+          <div class="money">
+            <span class="money__chip">RD$</span>
+            <input
+              class="policy__input money__input"
+              type="text"
+              inputmode="decimal"
+              step="0.01"
+              [disabled]="!state.edificacion.enabled"
+              [ngModel]="state.edificacion.value"
+              (ngModelChange)="updateMoney('edificacion', $event)"
+              placeholder="0.00"
+              (input)="formatCurrency($event)"
+            />
+          </div>
+        </div>
+
+        <!-- Mobiliarios y Equipos -->
+        <div class="list__row" [class.is-enabled]="state.mobiliario.enabled">
+          <label class="chk">
+            <input type="checkbox" [(ngModel)]="state.mobiliario.enabled" />
+            <span>Mobiliarios y Equipos</span>
+          </label>
+          <div class="money">
+            <span class="money__chip">RD$</span>
+            <input
+              class="policy__input money__input"
+              type="text"
+              inputmode="decimal"
+              step="0.01"
+              [disabled]="!state.mobiliario.enabled"
+              [ngModel]="state.mobiliario.value"
+              (ngModelChange)="updateMoney('mobiliario', $event)"
+              placeholder="0.00"
+              (input)="formatCurrency($event)"
+            />
+          </div>
+        </div>
+
+        <!-- Maquinarias -->
+        <div class="list__row" [class.is-enabled]="state.maquinarias.enabled">
+          <label class="chk">
+            <input type="checkbox" [(ngModel)]="state.maquinarias.enabled" />
+            <span>Maquinarias</span>
+          </label>
+          <div class="money">
+            <span class="money__chip">RD$</span>
+            <input
+              class="policy__input money__input"
+              type="text"
+              inputmode="decimal"
+              step="0.01"
+              [disabled]="!state.maquinarias.enabled"
+              [ngModel]="state.maquinarias.value"
+              (ngModelChange)="updateMoney('maquinarias', $event)"
+              placeholder="0.00"
+              (input)="formatCurrency($event)"
+            />
+          </div>
+        </div>
+
+        <!-- Existencias o inventarios -->
+        <div class="list__row" [class.is-enabled]="state.existencias.enabled">
+          <label class="chk">
+            <input type="checkbox" [(ngModel)]="state.existencias.enabled" />
+            <span>Existencias o inventarios</span>
+          </label>
+          <div class="money">
+            <span class="money__chip">RD$</span>
+            <input
+              class="policy__input money__input"
+              type="text"
+              inputmode="decimal"
+              step="0.01"
+              [disabled]="!state.existencias.enabled"
+              [ngModel]="state.existencias.value"
+              (ngModelChange)="updateMoney('existencias', $event)"
+              placeholder="0.00"
+              (input)="formatCurrency($event)"
+            />
+          </div>
+        </div>
+
+        <!-- Propiedades muebles e inmuebles -->
+        <div class="list__row" [class.is-enabled]="state.propiedades.enabled">
+          <label class="chk">
+            <input type="checkbox" [(ngModel)]="state.propiedades.enabled" />
+            <span>Propiedades muebles e inmuebles</span>
+          </label>
+          <div class="money">
+            <span class="money__chip">RD$</span>
+            <input
+              class="policy__input money__input"
+              type="text"
+              inputmode="decimal"
+              step="0.01"
+              [disabled]="!state.propiedades.enabled"
+              [ngModel]="state.propiedades.value"
+              (ngModelChange)="updateMoney('propiedades', $event)"
+              placeholder="0.00"
+              (input)="formatCurrency($event)"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Paneles Solares -->
+      <div class="section">
+        <div class="list__row" [class.is-enabled]="hasSolar">
+          <label class="chk">
+            <input type="checkbox" [(ngModel)]="hasSolar" />
+            <span>¿Tiene paneles solares en tu ubicación?</span>
+          </label>
+          <div class="money">
+            <span class="money__chip">RD$</span>
+            <input
+              class="policy__input money__input"
+              type="text"
+              inputmode="decimal"
+              step="0.01"
+              [disabled]="!hasSolar"
+              [ngModel]="solarValue"
+              (ngModelChange)="updateSolar($event)"
+              placeholder="0.00"
+              (input)="formatCurrency($event)"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="rc">
+        <label>Flexibilidad de elegir tu Responsabilidad Civil</label>
+        <select class="policy__input" [(ngModel)]="rcValue">
+          <option [ngValue]="null">— Selecciona —</option>
+          <option [ngValue]="1000000">RD$ 1,000,000</option>
+          <option [ngValue]="2000000">RD$ 2,000,000</option>
+          <option [ngValue]="5000000">RD$ 5,000,000</option>
+        </select>
+        <p class="rc__note">Deducible: 10% del valor de la pérdida, mínimo RD$ 5,000.00</p>
+      </div>
+
+      <footer class="modal__footer">
+        <button class="btn" type="button" (click)="cancel.emit()">Atrás</button>
+        <button class="btn btn--primary" type="button" (click)="onConfirm()">Guardar y agregar</button>
+      </footer>
+    </div>
+  </div>
+}

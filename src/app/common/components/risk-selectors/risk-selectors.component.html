@@ -1,0 +1,76 @@
+<div class="policy__card risks risks--top">
+  <h3 class="policy__subtitle">Selecciona los bienes a asegurar</h3>
+  <div class="risks__grid">
+
+    <label class="risk-card" (click)="onToggle(riskCards[0])">
+      <input
+        type="checkbox"
+        class="risk-card__check"
+        [checked]="riskCards[0].selected"
+        [attr.aria-label]="'Seleccionar ' + riskCards[0].label"
+      />
+      <div class="risk-card__body">
+        <div class="risk-card__tick" aria-hidden="true"></div>
+        <div class="risk-card__icon" aria-hidden="true">{{ riskCards[0].icon }}</div>
+        <div class="risk-card__title">{{ riskCards[0].label }}</div>
+      </div>
+    </label>
+
+    <label class="risk-card" (click)="onToggle(riskCards[1])">
+      <input
+        type="checkbox"
+        class="risk-card__check"
+        [checked]="riskCards[1].selected"
+        [attr.aria-label]="'Seleccionar ' + riskCards[1].label"
+      />
+      <div class="risk-card__body">
+        <div class="risk-card__tick" aria-hidden="true"></div>
+        <div class="risk-card__icon" aria-hidden="true">{{ riskCards[1].icon }}</div>
+        <div class="risk-card__title">{{ riskCards[1].label }}</div>
+      </div>
+    </label>
+
+    <label class="risk-card" (click)="onToggle(riskCards[2])">
+      <input
+        type="checkbox"
+        class="risk-card__check"
+        [checked]="riskCards[2].selected"
+        [attr.aria-label]="'Seleccionar ' + riskCards[2].label"
+      />
+      <div class="risk-card__body">
+        <div class="risk-card__tick" aria-hidden="true"></div>
+        <div class="risk-card__icon" aria-hidden="true">{{ riskCards[2].icon }}</div>
+        <div class="risk-card__title">{{ riskCards[2].label }}</div>
+      </div>
+    </label>
+
+    <label class="risk-card" (click)="onToggle(riskCards[3])">
+      <input
+        type="checkbox"
+        class="risk-card__check"
+        [checked]="riskCards[3].selected"
+        [attr.aria-label]="'Seleccionar ' + riskCards[3].label"
+      />
+      <div class="risk-card__body">
+        <div class="risk-card__tick" aria-hidden="true"></div>
+        <div class="risk-card__icon" aria-hidden="true">{{ riskCards[3].icon }}</div>
+        <div class="risk-card__title">{{ riskCards[3].label }}</div>
+      </div>
+    </label>
+
+    <label class="risk-card" (click)="onToggle(riskCards[4])">
+      <input
+        type="checkbox"
+        class="risk-card__check"
+        [checked]="riskCards[4].selected"
+        [attr.aria-label]="'Seleccionar ' + riskCards[4].label"
+      />
+      <div class="risk-card__body">
+        <div class="risk-card__tick" aria-hidden="true"></div>
+        <div class="risk-card__icon" aria-hidden="true">{{ riskCards[4].icon }}</div>
+        <div class="risk-card__title">{{ riskCards[4].label }}</div>
+      </div>
+    </label>
+
+  </div>
+</div>

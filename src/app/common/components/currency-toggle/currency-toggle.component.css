@@ -1,0 +1,25 @@
+.currency-toggle {
+  display: inline-flex;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.pill {
+  border: 0;
+  background: transparent;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+
+.pill.is-active {
+  background: #f3f4f6;
+  box-shadow: 0 0 0 2px #e5e7eb inset;
+  color: #9b1c1c;
+}

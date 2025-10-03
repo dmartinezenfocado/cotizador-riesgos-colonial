@@ -1,0 +1,234 @@
+/****************************************
+ * Add-location-covers — CSS autónomo
+ * (incluye su propio shell del modal)
+ ****************************************/
+
+/* ============ Base / tokens (resueltos) ============ */
+/* text: #1f2937; muted: #6b7280; border: #e6e8ec; primary: #9f1d24; secondary: #2e7d77 */
+
+/* ============ Shell del modal ============ */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+}
+.modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(17, 24, 39, .45);
+  backdrop-filter: blur(2px);
+}
+.modal__panel {
+  position: relative;
+  z-index: 1;
+  width: min(760px, 92vw);
+  max-height: 90vh;
+  overflow: auto;
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #e6e8ec;
+  box-shadow: 0 24px 60px rgba(0,0,0,.18);
+  padding: 1rem 1rem .9rem;
+  animation: modalIn .16s ease-out;
+}
+@keyframes modalIn {
+  from { transform: translateY(8px); opacity: 0; }
+  to   { transform: translateY(0);  opacity: 1; }
+}
+
+/* ============ Header del modal ============ */
+.modal__header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:.75rem;
+  padding-bottom:.5rem;
+  border-bottom:1px solid #e6e8ec;
+}
+.modal__title {
+  margin:0;
+  font-weight: 800;
+  color: #1f2937;
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+}
+.modal__title .muted { color:#6b7280; font-weight:600; }
+.modal__close {
+  border: 1px solid #e6e8ec;
+  background:#fafafa;
+  border-radius:10px;
+  height:34px;
+  width:34px;
+  cursor:pointer;
+  flex: 0 0 auto;
+}
+
+/* ============ Lista de coberturas ============ */
+.list {
+  margin: .75rem 0 1rem;
+  display: grid;
+  gap: .5rem;
+}
+.list__row {
+  display: grid;
+  grid-template-columns: 1fr minmax(180px, 240px);
+  align-items: center;
+  gap: .75rem;
+  padding: .4rem 0;
+  border-bottom: 1px dashed #e6e8ec;
+}
+.list__row:last-child { border-bottom: 0; }
+
+/* Checkbox + texto */
+.chk {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-weight: 700;
+  color: #111827;
+}
+.list__row.is-enabled .chk span { color: #0f172a; }
+
+/* ============ Grupo monetario RD$ ============ */
+.money {
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+.money__chip {
+  display: inline-flex;
+  align-items: center;
+  padding: .5rem .6rem;
+  border: 1px solid;
+  border-right: 0;
+  border-radius: .5rem 0 0 .5rem;
+  font-weight: 700;
+  line-height: 1;
+  user-select: none;
+}
+.money__input {
+  border-radius: 0 .5rem .5rem 0;
+}
+
+/* Fila NO seleccionada */
+.list__row:not(.is-enabled) .money__chip {
+  background: #e7f5ee;
+  border-color: #b7e0c2;
+  color: #166534;
+}
+.list__row:not(.is-enabled) .money__input {
+  background: #f7faf9;
+  border-color: #e5e7eb;
+  color: #6b7280;
+}
+
+/* Fila seleccionada */
+.list__row.is-enabled .money__chip {
+  background: #ffffff;
+  border-color: #d1d5db;
+  color: #111827;
+}
+.list__row.is-enabled .money__input {
+  background: #ffffff;
+  border-color: #9ca3af;
+  color: #111827;
+}
+
+/* ============ Sección “Paneles Solares” + RC ============ */
+.section {
+  border-top: 1px solid #e6e8ec;
+  padding-top: .75rem;
+  margin-top: .5rem;
+}
+.rc {
+  margin-top: .75rem;
+  display: grid;
+  gap: .4rem;
+}
+.rc__note {
+  margin: .25rem 0 0;
+  color: #6b7280;
+  font-size: .9rem;
+}
+
+/* ============ Inputs / Selects compartidos ============ */
+.policy__input{
+  box-sizing: border-box;
+  width:100%;
+  height:40px;
+  border-radius:12px;
+  border:1px solid #e6e8ec;
+  padding:0 .9rem;
+  color:#1f2937;
+  background:#fff;
+  line-height: 1.2;
+  transition:border-color .2s, box-shadow .2s;
+}
+.policy__input::placeholder { color: rgba(107,114,128,.85); }
+.policy__input:focus {
+  outline:none;
+  border-color: rgba(159,29,36,.55);
+  box-shadow: 0 0 0 4px rgba(159,29,36,.12);
+}
+
+/* Select con flecha */
+select.policy__input {
+  padding-right: 2.2rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, #9aa1aa 50%),
+    linear-gradient(135deg, #9aa1aa 50%, transparent 50%),
+    linear-gradient(to right, transparent, transparent);
+  background-position:
+    calc(100% - 18px) 16px,
+    calc(100% - 12px) 16px,
+    100% 0;
+  background-size: 6px 6px, 6px 6px, 2.5rem 2.5rem;
+  background-repeat: no-repeat;
+}
+
+/* Inputs disabled (sin bajar opacidad del texto) */
+.policy__input:disabled {
+  background: #f3f4f6;
+  border-color: #e5e7eb;
+  color: #6b7280;
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+/* ============ Footer / Botones ============ */
+.modal__footer {
+  display:flex;
+  justify-content:flex-end;
+  gap:.5rem;
+  padding:.8rem 0 0;
+  margin-top:.25rem;
+  border-top:1px solid #e6e8ec;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  padding: 0 .9rem;
+  border-radius: 10px;
+  border: 1px solid #e6e8ec;
+  background: #f9fafb;
+  color: #1f2937;
+  font-weight: 700;
+  letter-spacing: .2px;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.btn:hover { background: #f3f4f6; }
+.btn:focus { outline: none; box-shadow: 0 0 0 3px rgba(46,125,119,.18); }
+.btn--primary {
+  border-color: transparent;
+  background: linear-gradient(90deg, #2e7d77 0%, #9f1d24 100%);
+  color: #fff;
+}

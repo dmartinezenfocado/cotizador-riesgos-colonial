@@ -1,4 +1,396 @@
-<section class="policy-page">
-  <h2>Póliza de Todo Riesgo de Incendio</h2>
-  <p>Aquí irá el formulario de parametrización.</p>
+<section class="policy">
+  <!-- Encabezado -->
+  <header class="policy__header">
+    <h2 class="policy__title">PÓLIZA DE TODO RIESGO DE INCENDIO</h2>
+    <img class="policy__logo" src="https://lacolonial.com.do/sites/default/files/logo-50-la_colonial.png" alt="La Colonial" />
+  </header>
+
+  <!-- ====== CARDS DE RIESGOS (componente separado) ====== -->
+  <app-risk-selectors
+    [riskCards]="riskCards"
+    (toggle)="toggleRiskByKey($event)">
+  </app-risk-selectors>
+
+  <!-- Selector de moneda global -->
+  <div class="policy__toolbar">
+    <app-currency-toggle></app-currency-toggle>
+  </div>
+
+  <!-- Ubicaciones aseguradas / Tipo de construcción -->
+<app-add-location-section
+  [(tipoConstruccion)]="tipoConstruccion"
+  [(ciudad)]="ciudad"
+  [(sector)]="sector"
+  [(barrio)]="barrio"
+  [canAddLocation]="canAddLocation"
+  (addLocation)="openAddLocation()">
+</app-add-location-section>
+
+
+  <!-- ===== Modal (paso 1) ===== -->
+<app-add-location-modal
+  [open]="showAddModal"
+  [tipoConstruccion]="tipoConstruccion"
+  [chipCiudad]="ciudad || '—'"
+  [chipSector]="sector || '—'"
+  [chipBarrio]="barrio || '—'"
+  (cancel)="closeAddLocation()"
+  (confirm)="onConfirmLocation($event)">
+</app-add-location-modal>
+
+  <!-- ===== Modal (paso 2 / continuación) ===== -->
+<app-add-location-covers
+  [open]="showCoversModal"
+  [actividad]="tipoConstruccion || 'Local Comercial'"
+  [ciudad]="ciudad || 'Distrito Nacional'"
+  [defaultRisk]="firstSelectedRisk || null"
+  (cancel)="showCoversModal = false"
+  (confirm)="onConfirmCovers($event)">
+</app-add-location-covers>
+
+  <!-- ====== Valores y Riesgos Asegurados ====== -->
+<div class="policy__card risks">
+  <h3 class="policy__subtitle">Valores y Riesgos Asegurados</h3>
+
+  <div class="values values--side values--full">
+    <div class="values__header">
+      <div class="values__col values__col--concept">Concepto</div>
+      <div class="values__col">VALORES A RIESGO</div>
+      <div class="values__col">SUMA ASEGURADA</div>
+    </div>
+
+    <!-- Dos bloques fijos: 1 y 2 -->
+    @for (idx of locationSlots; track idx; let i = $index) {
+  <div class="values__block">
+    <div class="values__block-title">{{ i + 1 }}</div>
+
+        <!-- Edificación -->
+        <div class="values__row">
+          <div class="values__concept">Edificación</div>
+          <input
+            class="policy__input values__input"
+            type="text"
+            placeholder="$ 0.00"
+            [ngModel]="getRiskValue(i, 'edificacion') | number : '1.0-2'"
+            (ngModelChange)="setRiskValue(i, 'edificacion', $event)"
+            (input)="formatCurrencyInput($event)"
+            [disabled]="!locations[i]" />
+          <input
+            class="policy__input values__input"
+            type="text"
+            placeholder="$ 0.00"
+            (input)="formatCurrencyInput($event)" />
+        </div>
+
+        <!-- Mobiliario y Equipos -->
+        <div class="values__row">
+          <div class="values__concept">Mobiliario y Equipos</div>
+          <input
+            class="policy__input values__input"
+            type="text"
+            placeholder="$ 0.00"
+            [ngModel]="getRiskValue(i, 'mobiliario') | number : '1.0-2'"
+            (ngModelChange)="setRiskValue(i, 'mobiliario', $event)"
+            (input)="formatCurrencyInput($event)"
+            [disabled]="!locations[i]" />
+          <input
+            class="policy__input values__input"
+            type="text"
+            placeholder="$ 0.00"
+            (input)="formatCurrencyInput($event)" />
+        </div>
+
+        <!-- Maquinarias -->
+        <div class="values__row">
+          <div class="values__concept">Maquinarias</div>
+          <input
+            class="policy__input values__input"
+            type="text"
+            placeholder="$ 0.00"
+            [ngModel]="getRiskValue(i, 'maquinarias') | number : '1.0-2'"
+            (ngModelChange)="setRiskValue(i, 'maquinarias', $event)"
+            (input)="formatCurrencyInput($event)"
+            [disabled]="!locations[i]" />
+          <input
+            class="policy__input values__input"
+            type="text"
+            placeholder="$ 0.00"
+            (input)="formatCurrencyInput($event)" />
+        </div>
+
+        <!-- Existencias o Inventarios -->
+        <div class="values__row">
+          <div class="values__concept">Existencia o Inventarios</div>
+          <input
+            class="policy__input values__input"
+            type="text"
+            placeholder="$ 0.00"
+            [ngModel]="getRiskValue(i, 'existencias') | number : '1.0-2'"
+            (ngModelChange)="setRiskValue(i, 'existencias', $event)"
+            (input)="formatCurrencyInput($event)"
+            [disabled]="!locations[i]" />
+          <input
+            class="policy__input values__input"
+            type="text"
+            placeholder="$ 0.00"
+            (input)="formatCurrencyInput($event)" />
+        </div>
+
+        <!-- Propiedades Muebles e Inmuebles -->
+        <div class="values__row">
+          <div class="values__concept">Propiedades Muebles e Inmuebles</div>
+          <input
+            class="policy__input values__input"
+            type="text"
+            placeholder="$ 0.00"
+            [ngModel]="getRiskValue(i, 'propiedades') | number : '1.0-2'"
+            (ngModelChange)="setRiskValue(i, 'propiedades', $event)"
+            (input)="formatCurrencyInput($event)"
+            [disabled]="!locations[i]" />
+          <input
+            class="policy__input values__input"
+            type="text"
+            placeholder="$ 0.00"
+            (input)="formatCurrencyInput($event)" />
+        </div>
+
+        <!-- Totales -->
+        <div class="values__row values__row--total">
+          <div class="values__concept">Totales:</div>
+          <input
+            class="policy__input values__input"
+            type="text"
+            placeholder="$ 0.00"
+            [value]="numberToCurrency(getBlockTotal(i))"
+            disabled />
+          <input
+            class="policy__input values__input"
+            type="text"
+            placeholder="$ 0.00"
+            (input)="formatCurrencyInput($event)" />
+        </div>
+  </div>
+    }
+  </div>
+</div>
+
+  <!-- ================= Interrupción de Negocios ================= -->
+  <div class="policy__card bi-section">
+    <!-- Formato Inglés -->
+    <div class="bi bi--english">
+      <div class="bi__left">
+        <p class="bi__title">Interrupción de Negocios Formato Inglés</p>
+        <p class="bi__hint">para cubrir el beneficio bruto anual (Excluye la interrupción por Avería de Maquinaria)</p>
+      </div>
+      <div class="bi__right">
+        <div class="mini-table">
+          <div class="mini-table__head">
+            <div>Periodo de Indemnización en Meses</div>
+            <div>Valor a Riesgo $</div>
+          </div>
+          <div class="mini-table__row">
+            <input class="policy__input" type="number" inputmode="numeric" placeholder="0" aria-label="Periodo de indemnización (meses)" />
+            <input class="policy__input" type="number" inputmode="decimal" placeholder="$ 0.00" aria-label="Valor a riesgo - Formato Inglés" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Formato Americano -->
+    <div class="bi bi--american">
+      <div class="bi__left">
+        <p class="bi__title">Interrupción de Negocios Formato Americano</p>
+        <p class="bi__hint">(Excluye la interrupción por Avería de Maquinaria)</p>
+      </div>
+      <div class="bi__right">
+        <div class="mini-table">
+          <div class="mini-table__head">
+            <div>Utilidad Anual $</div>
+            <div>Coaseguro Pactado %</div>
+            <div>Suma Asegurada $</div>
+          </div>
+          <div class="mini-table__row mini-table__row--3">
+            <input class="policy__input" type="number" inputmode="decimal" placeholder="$ 0.00" aria-label="Utilidad anual" />
+            <input class="policy__input" type="number" inputmode="decimal" placeholder="%" aria-label="Coaseguro pactado %" />
+            <input class="policy__input" type="number" inputmode="decimal" placeholder="$ 0.00" aria-label="Suma asegurada - Formato Americano" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Totales Generales -->
+    <div class="bi bi--totals">
+      <div class="bi__left">
+        <p class="bi__title">Totales Generales</p>
+        <label class="bi__rate">
+          <span>Tasa Neta:</span>
+          <input class="policy__input bi__rate-input" type="number" inputmode="decimal" placeholder="%" aria-label="Tasa neta" />
+        </label>
+      </div>
+      <div class="bi__right">
+        <div class="mini-table">
+          <div class="mini-table__head">
+            <div>Valor a Riesgo</div>
+            <div>Suma Asegurada</div>
+          </div>
+          <div class="mini-table__row">
+            <input class="policy__input" type="number" inputmode="decimal" placeholder="$ 0.00" aria-label="Total Valor a Riesgo"  />
+            <input class="policy__input" type="number" inputmode="decimal" placeholder="$ 0.00" aria-label="Total Suma Asegurada" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Caja de primas -->
+    <div class="bi bi--premium">
+      <div class="bi__left"></div>
+      <div class="bi__right">
+        <div class="premium-box">
+          <label class="premium-box__row">
+            <span>Prima neta:</span>
+            <input class="policy__input" type="number" inputmode="decimal" placeholder="$ 0.00" aria-label="Prima neta" />
+          </label>
+          <label class="premium-box__row">
+            <span>Impuesto:</span>
+            <input class="policy__input" type="number" inputmode="decimal" placeholder="$ 0.00" aria-label="Impuesto" />
+          </label>
+          <label class="premium-box__row">
+            <span>Prima Bruta:</span>
+            <input class="policy__input" type="number" inputmode="decimal" placeholder="$ 0.00" aria-label="Prima bruta" />
+          </label>
+        </div>
+      </div>
+    </div>
+
+  <!-- ================= Listas dinámicas ================= -->
+    <div class="covers-section">
+      <div class="covers__header">
+        <h3 class="covers__title">COBERTURAS</h3>
+        <!-- <h3 class="covers__subtitle">SUBLÍMITE</h3> -->
+      </div>
+
+  <!-- Selector de coberturas + sublímite + botón (alineados en una fila) -->
+    <div class="covers__controls">
+      <div class="covers__field">
+        <label class="covers__label">Cobertura</label>
+          <select [(ngModel)]="selectedCover" class="policy__input">
+            <option [ngValue]="null" disabled selected>Seleccione una cobertura</option>
+              @for (opt of coverOptions; track opt) {
+                <option [ngValue]="opt">{{ opt }}</option>
+              }
+          </select>
+      </div>
+
+      <div class="covers__field covers__field--sublimit">
+        <label class="covers__label">Sublímite</label>
+        <input
+          [(ngModel)]="sublimitInput"
+          class="policy__input"
+          type="text"
+          placeholder="Ej. RD$ 100,000 o 10%"
+          aria-label="Sublímite de la cobertura seleccionada"
+          (input)="formatCurrencyInput($event)"
+        />
+      </div>
+
+      <div class="covers__actions">
+        <button type="button" (click)="addCover()" class="btn">Agregar</button>
+      </div>
+    </div>
+
+  <!-- Lista de coberturas seleccionadas -->
+    <div class="covers__list">
+      <div class="covers__row covers__row--head">
+        <div>Cobertura</div>
+        <div>Sublímite</div>
+        <div class="covers__col--actions"></div>
+      </div>
+
+        @for (c of covers; track c; let i = $index) {
+          <div class="covers__row">
+            <div class="covers__col--name">{{ c.name }}</div>
+            <div class="covers__col--sublimit">
+              <input [(ngModel)]="c.sublimit" class="policy__input" type="text" />
+            </div>
+            <div class="covers__col--actions">
+              <button type="button" (click)="removeCover(i)" class="btn btn--danger">Quitar</button>
+            </div>
+          </div>
+        }
+
+        @if (covers.length === 0) {
+          <div class="covers__empty">No hay coberturas agregadas.</div>
+        }
+      </div>
+    </div>
+
+    <!-- ================= Cláusulas ================= -->
+    <div class="clauses-section">
+      <h3 class="clauses__title">CLÁUSULAS</h3>
+
+      <div class="clauses__controls">
+        <select [(ngModel)]="selectedClause" class="policy__input">
+          <option [ngValue]="null" disabled selected>Seleccione una cláusula</option>
+          @for (opt of clauseOptions; track opt) {
+            <option [ngValue]="opt">{{ opt }}</option>
+          }
+        </select>
+        <button type="button" (click)="addClause()" class="btn">Agregar</button>
+      </div>
+
+      <div class="clauses__list">
+        @for (cl of clauses; track cl; let i = $index) {
+          <div class="clauses__row">
+            <div>{{ cl }}</div>
+            <div>
+              <button type="button" (click)="removeClause(i)" class="btn btn--danger">Quitar</button>
+            </div>
+          </div>
+        }
+
+        @if (clauses.length === 0) {
+          <div class="clauses__empty">No hay cláusulas agregadas.</div>
+        }
+      </div>
+    </div>
+
+    <!-- ================= Deducibles ================= -->
+    <div class="deductible-section">
+      <h3 class="deductible__title">DEDUCIBLE</h3>
+
+      <div class="deductible__controls">
+        <select [(ngModel)]="selectedDeductible" class="policy__input">
+          <option [ngValue]="null" disabled selected>Seleccione un deducible</option>
+          @for (opt of deductibleOptions; track opt) {
+            <option [ngValue]="opt">{{ opt }}</option>
+          }
+        </select>
+        <button type="button" (click)="addDeductible()" class="btn">Agregar</button>
+      </div>
+
+      <div class="deductible__list">
+        @for (d of deductibles; track d; let i = $index) {
+          <div class="deductible__row">
+            <div>{{ d }}</div>
+            <div>
+              <button type="button" (click)="removeDeductible(i)" class="btn btn--danger">Quitar</button>
+            </div>
+          </div>
+        }
+
+        @if (deductibles.length === 0) {
+          <div class="deductible__empty">No hay deducibles agregados.</div>
+        }
+      </div>
+    </div>
+  <!-- ====== BOTÓN DE ENVÍO ====== -->
+    <div class="policy__actions">
+      <app-submit-button
+        label="Guardar Póliza"
+        [disabled]="false"
+        [loading]="false"
+        (submitClick)="onSubmitPolicy()">
+      </app-submit-button>
+    </div>
+  </div>
 </section>

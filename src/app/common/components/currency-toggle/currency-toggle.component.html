@@ -1,0 +1,17 @@
+<div class="currency-toggle" role="group" aria-label="Selecciona tu moneda">
+  <button
+    class="pill"
+    [class.is-active]="(currency.code$ | async) === 'DOP'"
+    type="button"
+    (click)="setDOP()">
+    RD$
+  </button>
+
+  <button
+    class="pill"
+    [class.is-active]="(currency.code$ | async) === 'USD'"
+    type="button"
+    (click)="setUSD()">
+    $US
+  </button>
+</div>

@@ -1,0 +1,83 @@
+<div class="policy__card locations">
+  <h3 class="policy__subtitle">Ubicaciones aseguradas</h3>
+
+  <div class="locations__grid">
+    <!-- Tipo de Construcción -->
+    <label class="sr-only" for="tipo-construccion">Tipo de Construcción</label>
+    <select id="tipo-construccion" class="policy__input" aria-label="Tipo de Construcción"
+            [ngModel]="tipoConstruccion"
+            (ngModelChange)="tipoConstruccionChange.emit($event)">
+      <option [ngValue]="null" selected>Tipo de Construcción</option>
+      <option>Local</option>
+      <option>Oficina</option>
+      <option>Nave/Almacén</option>
+      <option>Plaza/Multitienda</option>
+    </select>
+
+    <!-- Ciudad -->
+    <label class="sr-only" for="ciudad">Ciudad/Provincia</label>
+    <select id="ciudad" class="policy__input" aria-label="Ciudad/Provincia"
+            [ngModel]="ciudad"
+            (ngModelChange)="ciudadChange.emit($event)">
+      <option [ngValue]="null" selected>Ciudad/Provincia</option>
+      <option>Santo Domingo</option>
+      <option>Santiago</option>
+      <option>La Romana</option>
+      <option>Puerto Plata</option>
+    </select>
+
+    <!-- Sector -->
+    <label class="sr-only" for="sector">Sector</label>
+    <select id="sector" class="policy__input" aria-label="Sector"
+            [ngModel]="sector"
+            (ngModelChange)="sectorChange.emit($event)">
+      <option [ngValue]="null" selected>Sector</option>
+      <option>Naco</option>
+      <option>Piantini</option>
+      <option>Gazcue</option>
+      <option>Bella Vista</option>
+    </select>
+
+    <!-- Barrio -->
+    <label class="sr-only" for="barrio">Barrio</label>
+    <select id="barrio" class="policy__input" aria-label="Barrio"
+            [ngModel]="barrio"
+            (ngModelChange)="barrioChange.emit($event)">
+      <option [ngValue]="null" selected>Barrio</option>
+      <option>El Millón</option>
+      <option>Los Jardines</option>
+      <option>Don Bosco</option>
+      <option>Ens. Quisqueya</option>
+    </select>
+  </div>
+
+  <!-- Botón Agregar ubicación -->
+  <div class="locations__add">
+    <button type="button"
+            class="locations__add-btn"
+            [disabled]="!canAddLocation"
+            (click)="onAddLocation()">
+      Agregar Ubicación
+    </button>
+  </div>
+
+  <div class="section-divider" role="separator" aria-hidden="true"></div>
+
+  <!-- Intermediarios -->
+  <details class="intermediary policy__card">
+    <summary class="intermediary__toggle">
+      <span class="intermediary__switch" aria-hidden="true"></span>
+      <span>Selecciona tu intermediario</span>
+    </summary>
+
+    <div class="intermediary__panel">
+      <label for="broker" class="intermediary__label">Intermediarios</label>
+      <select id="broker" class="policy__input intermediary__select" aria-label="Intermediarios">
+        <option value=""> Intermediarios </option>
+        <option>Intermediario Demo 1</option>
+        <option>Intermediario Demo 2</option>
+        <option>Intermediario Demo 3</option>
+      </select>
+    </div>
+  </details>
+</div>

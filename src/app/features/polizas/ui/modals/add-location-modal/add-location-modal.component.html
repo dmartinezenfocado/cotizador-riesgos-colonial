@@ -1,0 +1,84 @@
+@if (open) {
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="addLocTitle">
+    <div class="modal__overlay" (click)="cancel.emit()" aria-hidden="true"></div>
+
+    <div class="modal__panel" tabindex="-1">
+      <header class="modal__header">
+  <h3 id="addLocTitle" class="modal__title">
+    <span class="icon" aria-hidden="true">📍</span>
+    <strong>{{ tipoConstruccionTitle }}</strong>
+    <span class="muted">en</span>
+    {{ chipCiudad }}
+  </h3>
+  <button class="modal__close" type="button" (click)="cancel.emit()" aria-label="Cerrar">✕</button>
+</header>
+
+
+      <div class="modal__chips">
+        <span class="chip">{{ chipSector }}</span>
+        <span class="chip">{{ chipBarrio }}</span>
+      </div>
+
+      <div class="modal__owner">
+        <span class="owner__label">¿Eres propietario o inquilino?</span>
+        <div class="owner__options">
+          <label class="owner__option">
+            <input type="radio" name="tenencia" value="Propietario" [(ngModel)]="esPropietario">
+            <span>Propietario</span>
+          </label>
+          <label class="owner__option">
+            <input type="radio" name="tenencia" value="Inquilino" [(ngModel)]="esPropietario">
+            <span>Inquilino</span>
+          </label>
+        </div>
+      </div>
+
+      <section aria-labelledby="locTitle">
+        <h4 id="locTitle" class="sr-only">Confirmar ubicación</h4>
+        <div class="modal__grid">
+          <div class="field field--wide">
+            <label for="calle">Escribe el nombre de la calle</label>
+            <input id="calle" class="policy__input" placeholder="Calle / Avenida" [(ngModel)]="calle" />
+          </div>
+          <div class="field">
+            <label for="numInm">Número del inmueble</label>
+            <input id="numInm" class="policy__input" placeholder="No." [(ngModel)]="numeroInmueble" />
+          </div>
+          <div class="field">
+            <label for="piso">Número de piso</label>
+            <select id="piso" class="policy__input" [(ngModel)]="numeroPiso">
+              <option [ngValue]="''">Selecciona</option>
+              <option *ngFor="let o of floorOptions" [ngValue]="o">{{ o }}</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="anio">Año de construcción</label>
+            <select id="anio" class="policy__input" [(ngModel)]="anioConstruccion">
+              <option [ngValue]="''">Selecciona</option>
+              <option *ngFor="let o of yearOptions" [ngValue]="o">{{ o }}</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <section class="modal__toggles" aria-labelledby="detTitle">
+        <h4 id="detTitle" class="sr-only">Detalles de la propiedad</h4>
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="concretoTotal" />
+          <span class="switch__ui" aria-hidden="true"></span>
+          <span class="switch__label">¿Está construida con techo y paredes de concreto?</span>
+        </label>
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="concretoVigasAcero" />
+          <span class="switch__ui" aria-hidden="true"></span>
+          <span class="switch__label">¿Está construida con paredes de concreto y vigas acero?</span>
+        </label>
+      </section>
+
+      <footer class="modal__footer">
+        <button type="button" class="btn" (click)="cancel.emit()">Cancelar</button>
+        <button type="button" class="btn btn--primary" (click)="onConfirm()">Siguiente</button>
+      </footer>
+    </div>
+  </div>
+}
