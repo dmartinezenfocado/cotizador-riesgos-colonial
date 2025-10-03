@@ -1,0 +1,2 @@
+contiene la lógica y configuraciones centrales de la aplicación. Aquí se ubican elementos que se utilizan en todo el proyecto
+y que no están ligados a un módulo o componente específico, sino que son globales y fundamentales para el funcionamiento de la aplicación.

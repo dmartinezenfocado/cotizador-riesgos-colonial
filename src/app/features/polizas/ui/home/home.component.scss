@@ -1,0 +1,94 @@
+/* ===== Paleta (inspirada en la imagen) ===== */
+$primary:       #9f1d24; // rojo vino
+$primary-700:   #7f151a;
+$secondary:     #2e7d77; // teal de “check”
+$bg:            #f6f7f8; // fondo claro
+$card:          #ffffff;
+$text:          #1f2937;
+$muted:         #6b7280;
+$border:        #e6e8ec;
+$shadow:        0 8px 24px rgba(16, 24, 40, 0.06);
+
+/* ===== Layout ===== */
+:host {
+  display: block;
+  background: $bg;
+  min-height: 100%;
+}
+
+.home {
+  padding: 2.25rem 1.25rem;
+
+  &__header {
+    max-width: 900px;
+    margin: 0 auto 1.25rem auto;
+    text-align: center;
+  }
+
+  &__title {
+    margin: 0 0 .25rem 0;
+    font-size: clamp(1.25rem, 1.1rem + 1.2vw, 1.75rem);
+    font-weight: 800;
+    letter-spacing: .2px;
+    color: $text;
+  }
+
+  &__subtitle {
+    margin: 0;
+    color: $muted;
+    font-size: .95rem;
+  }
+
+  &__card {
+    max-width: 900px;
+    margin: 1.25rem auto 0 auto;
+    background: $card;
+    border: 1px solid $border;
+    border-radius: 16px;
+    padding: 1.25rem;
+    box-shadow: $shadow;
+
+    /* === clave: grid con gap === */
+    display: grid;
+    place-items: center;
+    gap: 1rem;  // <-- agrega espacio vertical entre botones
+  }
+}
+
+/* ===== Botón estilo “pill” ===== */
+.btn {
+  --pad-y: .85rem;
+  --pad-x: 1.25rem;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+
+  padding: var(--pad-y) var(--pad-x);
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: .2px;
+  transition: transform .08s ease, box-shadow .2s ease, background-color .2s ease;
+  border: 1px solid transparent;
+  user-select: none;
+
+  &:active { transform: translateY(1px); }
+}
+
+.btn--primary {
+  background: $primary;
+  color: #fff;
+  box-shadow: 0 6px 14px rgba(159, 29, 36, .22);
+
+  &:hover {
+    background: $primary-700;
+    box-shadow: 0 8px 18px rgba(159, 29, 36, .28);
+  }
+
+  &:focus-visible {
+    outline: 3px solid rgba($secondary, .35);
+    outline-offset: 3px;
+  }
+}
